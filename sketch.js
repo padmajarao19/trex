@@ -62,29 +62,31 @@ function setup() {
 function draw() {
   background(180);
   
-  //score board
-  
-  text("Score: "+ score, 450,50);
+  //display score board
+   text("Score: "+ score, 450,50);
   
   if(gameState === PLAY){
+    //calculate score
     score = score + Math.round(getFrameRate()/60);
+    
+    //assign ground movement
     ground.velocityX = -(6 + 3*score/100);
     
-    if(keyDown("space")){
-      trex.velocityY = -10;
+    if(keyDown("space") && trex.y >= 161){
+      trex.velocityY = -12;
     }
-  
+    //add gravity to trex
     trex.velocityY = trex.velocityY + 0.8;
-  
+    //reset the ground image
     if(ground.x < 0){
      ground.x = ground.width/2;
     }
     
     trex.collide(invisibleGround);
-  
+    //spawn clouds and obstacles
     spawnClouds();
     spawnObstacles();
-    
+    //end game if trex collides with obstacles
     if(obstaclesGroup.isTouching(trex)){
        gameState = END;
     }
